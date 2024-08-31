@@ -14,7 +14,6 @@ namespace Movies.Extensions
 
             return new MovieDTO
             {
-                Id = movieModel.Id,
                 Title = movieModel.Title,
                 Summary = movieModel.Summary,
                 Poster = movieModel.Poster,
@@ -35,7 +34,7 @@ namespace Movies.Extensions
 
             return new MovieModel
             {
-                Id = movieDTO.Id,
+                Id = Guid.NewGuid(),
                 Title = movieDTO.Title,
                 Summary = movieDTO.Summary,
                 Poster = movieDTO.Poster,

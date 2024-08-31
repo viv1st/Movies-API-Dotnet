@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Movies.Data;
 using Movies.Models;
 using Movies.Extensions;
+using System.Globalization;
 
 namespace Movies.Controllers
 {
@@ -24,32 +25,40 @@ namespace Movies.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MovieModel>>> GetMovies()
         {
-            return await _context.Movies.ToListAsync();
+            return await _context.movies.ToListAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<MovieDTO>> GetMovie(Guid id)
+        public async Task<ActionResult<MovieModel>> GetMovie(Guid id)
         {
-            var movie = await _context.Movies.FindAsync(id);
+            var movie = await _context.movies.FindAsync(id);
 
             if (movie == null)
             {
                 return NotFound();
             }
 
-            return movie.ToDTO();
+            return movie;
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> PutMovie(Guid id, MovieDTO movieDTO)
         {
-            if (id != movieDTO.Id)
+            var movie = await _context.movies.FindAsync(id);
+            if (movie == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
-            var movieModel = movieDTO.ToModel();
-            _context.Entry(movieModel).State = EntityState.Modified;
+            movie.Title = movieDTO.Title;
+            movie.Summary = movieDTO.Summary;
+            movie.Poster = movieDTO.Poster;
+            movie.ReleaseDateYMD = movieDTO.ReleaseDateYMD;
+            movie.ReleaseDate = movieDTO.ReleaseDateYMD.HasValue
+                ? movieDTO.ReleaseDateYMD.Value.ToString("d MMMM yyyy", new CultureInfo("fr-FR"))
+                : "N/A";
+
+            _context.Entry(movie).State = EntityState.Modified;
 
             try
             {
@@ -74,7 +83,7 @@ namespace Movies.Controllers
         public async Task<ActionResult<MovieDTO>> PostMovie(MovieDTO movieDTO)
         {
             var movieModel = movieDTO.ToModel();
-            _context.Movies.Add(movieModel);
+            _context.movies.Add(movieModel);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetMovie", new { id = movieModel.Id }, movieDTO);
@@ -83,13 +92,13 @@ namespace Movies.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMovie(Guid id)
         {
-            var movie = await _context.Movies.FindAsync(id);
+            var movie = await _context.movies.FindAsync(id);
             if (movie == null)
             {
                 return NotFound();
             }
 
-            _context.Movies.Remove(movie);
+            _context.movies.Remove(movie);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -97,7 +106,7 @@ namespace Movies.Controllers
 
         private bool MovieExists(Guid id)
         {
-            return _context.Movies.Any(e => e.Id == id);
+            return _context.movies.Any(e => e.Id == id);
         }
     }
 }

@@ -9,6 +9,6 @@ namespace Movies.Data
         {
         }
 
-        public DbSet<MovieModel> Movies { get; set; }
+        public DbSet<MovieModel> movies { get; set; }
     }
 }
