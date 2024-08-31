@@ -8,6 +8,7 @@ using Movies.Data;
 using Movies.Models;
 using Movies.Extensions;
 using System.Globalization;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Movies.Controllers
 {
@@ -23,12 +24,14 @@ namespace Movies.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<MovieModel>>> GetMovies()
         {
             return await _context.movies.ToListAsync();
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<MovieModel>> GetMovie(Guid id)
         {
             var movie = await _context.movies.FindAsync(id);
@@ -42,6 +45,7 @@ namespace Movies.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> PutMovie(Guid id, MovieDTO movieDTO)
         {
             var movie = await _context.movies.FindAsync(id);
@@ -80,6 +84,7 @@ namespace Movies.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<MovieDTO>> PostMovie(MovieDTO movieDTO)
         {
             var movieModel = movieDTO.ToModel();
@@ -90,6 +95,7 @@ namespace Movies.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteMovie(Guid id)
         {
             var movie = await _context.movies.FindAsync(id);
