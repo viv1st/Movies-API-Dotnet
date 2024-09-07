@@ -33,20 +33,7 @@ namespace Movies.Controllers
             if (user != null)
             {
                 var token = Generate(user);
-
-                // Configurer les options du cookie pour le token
-                var cookieOptions = new CookieOptions
-                {
-                    HttpOnly = true,  // Empêche l'accès au cookie via JavaScript
-                    SameSite = SameSiteMode.None,               // Nécessaire pour les cookies inter-domaines
-                    Secure = true,
-                    Expires = DateTime.Now.AddMinutes(15)  // Durée de vie du token
-                };
-
-                // Ajouter le JWT au cookie
-                HttpContext.Response.Cookies.Append("jwtToken", token, cookieOptions);
-
-                return Ok(new { message = "Login successful" });
+                return Ok(token);
             }
 
             return NotFound("User not found");

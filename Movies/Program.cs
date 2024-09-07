@@ -4,7 +4,6 @@ using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Movies;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,8 +17,7 @@ builder.Services.AddCors(options =>
         {
             builder.WithOrigins("http://localhost:5173")
                    .AllowAnyHeader()
-                   .AllowAnyMethod()
-                   .AllowCredentials(); ;
+                   .AllowAnyMethod();
         });
 });
 builder.Services.AddControllers();
@@ -84,7 +82,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("AllowSpecificOrigin");
-app.UseMiddleware<JwtCookieMiddleware>();
 app.UseAuthentication();
 
 app.UseHttpsRedirection();
