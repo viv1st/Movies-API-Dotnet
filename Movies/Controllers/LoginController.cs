@@ -39,6 +39,7 @@ namespace Movies.Controllers
                 {
                     HttpOnly = true,  // Empêche l'accès au cookie via JavaScript
                     SameSite = SameSiteMode.None,               // Nécessaire pour les cookies inter-domaines
+                    Secure = true,
                     Expires = DateTime.Now.AddMinutes(15)  // Durée de vie du token
                 };
 
