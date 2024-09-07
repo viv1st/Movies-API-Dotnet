@@ -78,8 +78,10 @@ namespace Movies.Controllers
                 }
             }
 
-            return NoContent();
+            // Retourner un message spécifique pour la mise à jour
+            return Ok(new { response = "updated" });
         }
+
 
         [HttpPost]
         [Authorize]
@@ -89,8 +91,10 @@ namespace Movies.Controllers
             _context.movies.Add(movieModel);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetMovie", new { id = movieModel.Id }, movieDTO);
+            // Retourner un message spécifique pour la création
+            return CreatedAtAction("GetMovie", new { response = "created" });
         }
+
 
         [HttpDelete("{id}")]
         [Authorize]
@@ -105,8 +109,10 @@ namespace Movies.Controllers
             _context.movies.Remove(movie);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            // Retourner un message spécifique pour la suppression
+            return Ok(new { response = "deleted" });
         }
+
 
         private bool MovieExists(Guid id)
         {
