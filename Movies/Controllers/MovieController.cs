@@ -24,14 +24,12 @@ namespace Movies.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<ActionResult<IEnumerable<MovieModel>>> GetMovies()
         {
             return await _context.movies.ToListAsync();
         }
 
         [HttpGet("{id}")]
-        [Authorize]
         public async Task<ActionResult<MovieModel>> GetMovie(Guid id)
         {
             var movie = await _context.movies.FindAsync(id);
