@@ -4,6 +4,7 @@ using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Movies;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -83,6 +84,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("AllowSpecificOrigin");
+app.UseMiddleware<JwtCookieMiddleware>();
 app.UseAuthentication();
 
 app.UseHttpsRedirection();
