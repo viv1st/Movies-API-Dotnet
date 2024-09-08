@@ -92,7 +92,7 @@ namespace Movies.Controllers
             await _context.SaveChangesAsync();
 
             // Retourner un message spécifique pour la création
-            return CreatedAtAction("GetMovie", new { response = "created" });
+            return Ok(new { response = "created" });
         }
 
 
