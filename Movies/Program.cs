@@ -15,7 +15,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowSpecificOrigin",
         builder =>
         {
-            builder.WithOrigins("*")
+            builder.WithOrigins("*") // je ne savais pas comment autoriser localhost avec n'importe quel port (ça ne marche que si on spécifie exactement le port utilisé)
                    .AllowAnyHeader()
                    .AllowAnyMethod();
         });
